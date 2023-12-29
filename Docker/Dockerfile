@@ -24,14 +24,12 @@ RUN apt-get update && apt-get install -y \
     libusb-1.0-0
 
 # Install ESP-IDF
-RUN git clone --recursive https://github.com/espressif/esp-idf.git
+RUN git clone -b v5.1.2 --recursive https://github.com/espressif/esp-idf.git
 ENV IDF_PATH=/workspace/esp-idf
-RUN ./esp-idf/install.sh
+RUN ./esp-idf/install.sh esp32
 
 # Config env
 RUN echo ". $IDF_PATH/export.sh" >> ~/.bashrc
 
 # Bash as default
 SHELL ["/bin/bash", "-c"]
-
-# Continue a configuração do seu projeto aqui...

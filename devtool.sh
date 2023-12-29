@@ -5,16 +5,17 @@
 # Variables for Docker image name and Dockerfile
 IMAGE_NAME="esp-idf-project"
 DOCKERFILE="Docker/Dockerfile"
-PROJECT_NAME="JapanTest"
+PROJECT_NAME="EspROS"
+BUILD_DIR="build sdkconfig"
 
 function build_env() {
     echo "Building Docker development environment..."
-    docker build --no-cache -t $IMAGE_NAME -f $DOCKERFILE .
+    docker build -t $IMAGE_NAME -f $DOCKERFILE .
 }
 
 function enter_env() {
     echo "Entering Docker development environment..."
-    docker run -it --rm -v $(pwd):/workspace/$PROJECT_NAME $IMAGE_NAME
+    docker run -it --rm --device=/dev/ttyUSB0 -v $(pwd):/workspace/$PROJECT_NAME $IMAGE_NAME
 }
 
 function compile_project() {
@@ -25,6 +26,12 @@ function flash_esp32() {
     echo "Flashing ESP32..."
 }
 
+function clean_project() {
+    echo "Cleaning the project..."
+    rm -rf $BUILD_DIR
+    echo "Build directory $BUILD_DIR has been cleaned."
+}
+
 function show_help() {
     echo "Usage: $0 [command]"
     echo "Commands:"
@@ -32,6 +39,7 @@ function show_help() {
     echo "  enterenv    Enter the Docker development environment"
     echo "  compile     Compile the project"
     echo "  flash       Flash the ESP32 device"
+    echo "  clean       Clean the project build directory"
 }
 
 # Check if at least one argument is provided
@@ -53,6 +61,9 @@ case "$1" in
         ;;
     flash)
         flash_esp32
+        ;;
+    clean)
+        clean_project
         ;;
     *)
         echo "Error: Unknown command '$1'"
