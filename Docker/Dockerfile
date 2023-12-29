@@ -1,10 +1,10 @@
-# Use uma imagem base Ubuntu
+# latest ubuntu image
 FROM ubuntu:latest
 
-# Defina o diretório de trabalho
+# workdir
 WORKDIR /workspace
 
-# Instale as dependências necessárias
+# dependencies
 RUN apt-get update && apt-get install -y \
     git \
     wget \
@@ -23,15 +23,15 @@ RUN apt-get update && apt-get install -y \
     dfu-util \
     libusb-1.0-0
 
-# Instale o ESP-IDF
+# Install ESP-IDF
 RUN git clone --recursive https://github.com/espressif/esp-idf.git
 ENV IDF_PATH=/workspace/esp-idf
 RUN ./esp-idf/install.sh
 
-# Configure o ambiente
+# Config env
 RUN echo ". $IDF_PATH/export.sh" >> ~/.bashrc
 
-# Use o bash como shell padrão
+# Bash as default
 SHELL ["/bin/bash", "-c"]
 
 # Continue a configuração do seu projeto aqui...
