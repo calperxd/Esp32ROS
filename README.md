@@ -12,6 +12,7 @@ This README provides instructions for using the `devtool.sh` script, which facil
 - `enterenv`: Enters the Docker development environment
 - `compile`: Compiles the ESP32 project
 - `flash`: Flashes the ESP32 device
+- `clean`: Cleans the project build directory
 
 ## Usage
 To use the script, run it with one of the following commands:
@@ -19,6 +20,7 @@ To use the script, run it with one of the following commands:
 - `./devtool.sh enterenv`
 - `./devtool.sh compile`
 - `./devtool.sh flash`
+- `./devtool.sh clean`
 
 ## Error Handling
 If an incorrect command is passed, the script will display an error message along with usage instructions.
