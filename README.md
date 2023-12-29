@@ -1,4 +1,4 @@
-# Project Development Script README
+# Project
 
 ## Overview
 This README provides instructions for using the `devtool.sh` script, which facilitates various development tasks for an ESP32 project within a Docker environment.
