@@ -7,6 +7,7 @@ IMAGE_NAME="esp-idf-project"
 DOCKERFILE="Docker/Dockerfile"
 PROJECT_NAME="EspROS"
 BUILD_DIR="build sdkconfig"
+USB_DEVICE="/dev/ttyUSB0"
 
 function build_env() {
     echo "Building Docker development environment..."
@@ -15,15 +16,17 @@ function build_env() {
 
 function enter_env() {
     echo "Entering Docker development environment..."
-    docker run -it --rm --device=/dev/ttyUSB0 -v $(pwd):/workspace/$PROJECT_NAME $IMAGE_NAME
+    docker run -it --rm --device=$USB_DEVICE -v $(pwd):/workspace/$PROJECT_NAME $IMAGE_NAME
 }
 
 function compile_project() {
     echo "Compiling the project..."
+    idf.py build
 }
 
 function flash_esp32() {
     echo "Flashing ESP32..."
+    idf.py -p $USB_DEVICE flash
 }
 
 function clean_project() {
