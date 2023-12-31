@@ -18,21 +18,27 @@ void uart_send_task(void* arg) {
     }
 }
 
-void blink_led_task(void *arg) {
+void uart_receive_task(void* arg) {
+    uint8_t *data = (uint8_t *) malloc(UART2_RX_BUF_SIZE);
     while (1) {
-        //gpio_set_level(GPIO_NUM_2, 1);
-        //vTaskDelay(100 / portTICK_PERIOD_MS);
-        //gpio_set_level(GPIO_NUM_2, 0);
-        vTaskDelay(1000 / portTICK_PERIOD_MS);
+        int len = uart_read_bytes(UART_NUM_2, data, (UART2_RX_BUF_SIZE - 1), 20 / portTICK_PERIOD_MS);
+        if (len > 0) {
+            gpio_set_level(GPIO_NUM_23, 1);
+            vTaskDelay(200 / portTICK_PERIOD_MS);
+            gpio_set_level(GPIO_NUM_23, 0);
+            vTaskDelay(200 / portTICK_PERIOD_MS);
+        }
+        vTaskDelay(10 / portTICK_PERIOD_MS);
     }
 }
 
 
 void app_main() {
+    led_init();
     uart2_init();
     adc_init();
-    xTaskCreate(blink_led_task, "blink_led", 2048, NULL, 5, NULL);
     xTaskCreate(uart_send_task, "uart_send_task", 2048, NULL, 5, NULL);
+    xTaskCreate(uart_receive_task, "uart_receive_task", 2048, NULL, 5, NULL);
     while (1) {
         vTaskDelay(pdMS_TO_TICKS(2000)); // Delay for 2 seconds
     }

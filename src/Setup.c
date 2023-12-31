@@ -31,8 +31,8 @@ void uart2_init() {
 
 
 void led_init(){
-    gpio_reset_pin(GPIO_NUM_2);
-    gpio_set_direction(GPIO_NUM_2, GPIO_MODE_OUTPUT);
+    gpio_reset_pin(GPIO_NUM_23);
+    gpio_set_direction(GPIO_NUM_23, GPIO_MODE_OUTPUT);
 }
 
 const esp_adc_cal_characteristics_t* get_adc_chars() {
